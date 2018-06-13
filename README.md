@@ -36,7 +36,7 @@ The `GenerateMotorCommands()` is written on `Lines 73-88` of `QuadControl.cpp`. 
 
 The `BodyRateControl()` is written on `Lines 118-120` of `QuadControl.cpp`. The controller took into account the moments of inertia of the drone and proportianal body angle rate gains `kpPQR = 60, 30, 10` defined in `QuadControlParams.txt`.
 
-The `RollPitchControl()` is written on `Lines 152-185` of `QuadControl.cpp`. 
+The `RollPitchControl()` is written on `Lines 152-185` of `QuadControl.cpp`. The controller was configured to command 0 roll and pitch rates if a negative thrust command is received since this is impossible to command (our quad does not have variable pitch propellers). Additionally the roll and pitch angles are constrained by the maximum tilt angle defined in `QuadControlParams.txt` and the proportional gain was set to `kpBank = 16`.
 
 If successful you should now see the quad level itself (as shown below), though it’ll still be flying away slowly since we’re not controlling velocity/position!  You should also see the vehicle angle (Roll) get controlled to 0.
 
@@ -53,20 +53,22 @@ Next, you will implement the position, altitude and yaw control for your quad.  
  - implement the code in the function `AltitudeControl()`
  - tune parameters `kpPosZ` and `kpPosZ`
  - tune parameters `kpVelXY` and `kpVelZ`
-
-If successful, the quads should be going to their destination points and tracking error should be going down (as shown below). However, one quad remains rotated in yaw.
-
  - implement the code in the function `YawControl()`
  - tune parameters `kpYaw` and the 3rd (z) component of `kpPQR`
 
-Tune position control for settling time. Don’t try to tune yaw control too tightly, as yaw control requires a lot of control authority from a quadcopter and can really affect other degrees of freedom.  This is why you often see quadcopters with tilted motors, better yaw authority!
+The `AltitudeControl()` and `LateralPositionControl()` are written on `Lines 216-226` and `Lines 264-276`, respectively, of `QuadControl.cpp`. The gains defined are 
+#### Position control gains ####
+kpPosXY = 2.5
+kpPosZ = 8
+KiPosZ = 10
+
+#### Velocity control gains ####
+kpVelXY = 15
+kpVelZ = 18
 
 <p align="center">
 <img src="animations/scenario3.gif" width="500"/>
 </p>
-
-**Hint:**  For a second order system, such as the one for this quadcopter, the velocity gain (`kpVelXY` and `kpVelZ`) should be at least ~3-4 times greater than the respective position gain (`kpPosXY` and `kpPosZ`).
-
 ### Non-idealities and robustness (scenario 4) ###
 
 In this part, we will explore some of the non-idealities and robustness of a controller.  For this simulation, we will use `Scenario 4`.  This is a configuration with 3 quads that are all are trying to move one meter forward.  However, this time, these quads are all a bit different:
