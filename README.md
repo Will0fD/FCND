@@ -59,9 +59,9 @@ Next, you will implement the position, altitude and yaw control for your quad.  
 The `AltitudeControl()` and `LateralPositionControl()` are written on `Lines 216-226` and `Lines 264-276`, respectively, of `QuadControl.cpp`. The lateral velocity and acceleration were both bound by vehicle limits listed in `QuadControlParams.txt`. The gains defined are listed below.  
 
 #### Position control gains ####
- - `kpPosXY = 2.5
- - kpPosZ = 8
- - KiPosZ = 10`
+ - `kpPosXY = 2.5`
+ - `kpPosZ = 8`
+ - `KiPosZ = 10`
 
 #### Velocity control gains ####
  - `kpVelXY = 15`
@@ -69,7 +69,7 @@ The `AltitudeControl()` and `LateralPositionControl()` are written on `Lines 216
  
 One point of difficulty I encountered was that my vehicle kept falling down. Eventually I realized my issue was that I failed to account for gravity in my altitude controller. (`Line 226`)
 
-The `YawControl()` is written on `Lines 298-308` of `QuadControl.cpp`. The controller contrains the commanded yaw to lie within `0` and `2*pi` and 
+The `YawControl()` is written on `Lines 298-308` of `QuadControl.cpp`. The controller contrains the commanded yaw to lie within `0` and `2*pi` and then ensures that the calculated error is the smaller angle to complete the path between commanded yaw angle and current yaw angle. The proportional gain defined in `QuadControlParams.txt` is `kpYaw = 2.2`.
 
 <p align="center">
 <img src="animations/scenario3.gif" width="500"/>
@@ -83,7 +83,11 @@ In this part, we will explore some of the non-idealities and robustness of a con
 
 1. Run your controller & parameter set from Step 3.  Do all the quads seem to be moving OK?  If not, try to tweak the controller parameters to work for all 3 (tip: relax the controller).
 
+Initially I had a lot of issues with the green quad due to the `LateralPositionControl()` not being properly defined. After looking at the one-page document mentioned in Parameter Ratios I was able to write the proper equations.
+
 2. Edit `AltitudeControl()` to add basic integral control to help with the different-mass vehicle.
+
+The integral gain defined in `QuadControlParams.txt` is `KiPosZ = 10`.
 
 3. Tune the integral control, and other control parameters until all the quads successfully move properly.  Your drones' motion should look like this:
 
@@ -99,6 +103,8 @@ Now that we have all the working parts of a controller, you will put it all toge
  - the other one is following `traj/FigureEightFF.txt` - for now this is the same trajectory.  
 
 How well is your drone able to follow the trajectory?  It is able to hold to the path fairly well?
+
+My quad was able to hold to the path and follow the trajectory well enough to pass the scenario 5 test (position error of the quad should be less than 0.25 meters for at least 3 seconds).
 
 With the two different trajectories, your drones' motions should look like this:
 
@@ -117,7 +123,6 @@ The specific performance metrics are as follows:
  - scenario 3
    - X position of both drones should be within 0.1 meters of the target for at least 1.25 seconds
    - Quad2 yaw should be within 0.1 of the target for at least 1 second
-
 
  - scenario 4
    - position error for all 3 quads should be less than 0.1 meters for at least 1.5 seconds
