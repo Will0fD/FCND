@@ -36,7 +36,7 @@ The `GenerateMotorCommands()` is written on `Lines 73-88` of `QuadControl.cpp`. 
 
 The `BodyRateControl()` is written on `Lines 118-120` of `QuadControl.cpp`. The controller took into account the moments of inertia of the drone and proportianal body angle rate gains `kpPQR = 60, 30, 10` defined in `QuadControlParams.txt`.
 
-The `RollPitchControl()` is written on `Lines 152-185` of `QuadControl.cpp`. The controller was configured to command 0 roll and pitch rates if a negative thrust command is received since this is impossible to command (our quad does not have variable pitch propellers). Additionally the roll and pitch angles are constrained by the maximum tilt angle defined in `QuadControlParams.txt` and the proportional gain was set to `kpBank = 16`.
+The `RollPitchControl()` is written on `Lines 152-185` of `QuadControl.cpp`. The controller was configured to command 0 roll and pitch rates if a negative thrust command is received since this is impossible to command (our quad does not have variable pitch propellers). Additionally the roll and pitch angles are constrained by the maximum tilt angle defined in `QuadControlParams.txt` and the proportional gain was set to `kpBank = 16`. I ran into a lot of difficulty by failing to include a negative sign on my collective thrust thereby not acknowledging the change of sign of the positive z axis moving from inertial frame to body frame (`Line 154`).
 
 If successful you should now see the quad level itself (as shown below), though it’ll still be flying away slowly since we’re not controlling velocity/position!  You should also see the vehicle angle (Roll) get controlled to 0.
 
@@ -56,7 +56,8 @@ Next, you will implement the position, altitude and yaw control for your quad.  
  - implement the code in the function `YawControl()`
  - tune parameters `kpYaw` and the 3rd (z) component of `kpPQR`
 
-The `AltitudeControl()` and `LateralPositionControl()` are written on `Lines 216-226` and `Lines 264-276`, respectively, of `QuadControl.cpp`. The gains defined are 
+The `AltitudeControl()` and `LateralPositionControl()` are written on `Lines 216-226` and `Lines 264-276`, respectively, of `QuadControl.cpp`. The lateral velocity and acceleration were both bound by vehicle limits listed in `QuadControlParams.txt`. The gains defined are listed below.  
+
 #### Position control gains ####
  - kpPosXY = 2.5
  - kpPosZ = 8
@@ -65,6 +66,10 @@ The `AltitudeControl()` and `LateralPositionControl()` are written on `Lines 216
 #### Velocity control gains ####
  - kpVelXY = 15
  - kpVelZ = 18
+ 
+One point of difficulty I encountered was that my vehicle kept falling down. Eventually I realized my issue was that I failed to account for gravity in my altitude controller. (`Line 226`)
+
+The `YawControl()` is written on `Lines 298-308` of `QuadControl.cpp`.
 
 <p align="center">
 <img src="animations/scenario3.gif" width="500"/>
