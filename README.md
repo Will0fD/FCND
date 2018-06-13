@@ -58,13 +58,13 @@ Next, you will implement the position, altitude and yaw control for your quad.  
 
 The `AltitudeControl()` and `LateralPositionControl()` are written on `Lines 216-226` and `Lines 264-276`, respectively, of `QuadControl.cpp`. The gains defined are 
 #### Position control gains ####
-kpPosXY = 2.5
-kpPosZ = 8
-KiPosZ = 10
+ - kpPosXY = 2.5
+ - kpPosZ = 8
+ - KiPosZ = 10
 
 #### Velocity control gains ####
-kpVelXY = 15
-kpVelZ = 18
+ - kpVelXY = 15
+ - kpVelZ = 18
 
 <p align="center">
 <img src="animations/scenario3.gif" width="500"/>
