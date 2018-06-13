@@ -23,18 +23,18 @@ To accomplish this, you will:
 
 1. Implement body rate control
 
- - implement the code in the function `GenerateMotorCommands()`
-            dfddf
-            dfdfd
-           
+ - implement the code in the function `GenerateMotorCommands()`       
  - implement the code in the function `BodyRateControl()`
  - Tune `kpPQR` in `QuadControlParams.txt` to get the vehicle to stop spinning quickly but not overshoot
-
 
 2. Implement roll / pitch control
 
  - implement the code in the function `RollPitchControl()`
  - Tune `kpBank` in `QuadControlParams.txt` to minimize settling time but avoid too much overshoot
+ 
+The `GenerateMotorCommands()` is written on Lines 73-88 of 'QuadControl.cpp'. It converts thrust and moments about the inertial axes received from the controllers into thrust commands for each individual motor. The drone dimensions were accounted for when calculating the moment arm. Motor numbers and rotation directions were also accounted for. Finally, the individual thrust commands for each motor were constrained to the minimum and maximum defined in 'QuadControlParams.txt`.
+
+
 
 If successful you should now see the quad level itself (as shown below), though it’ll still be flying away slowly since we’re not controlling velocity/position!  You should also see the vehicle angle (Roll) get controlled to 0.
 
