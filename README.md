@@ -24,15 +24,14 @@ To accomplish this, you will:
 1. Implement body rate control
 
  - implement the code in the function `GenerateMotorCommands()`
+            dfddf
+            dfdfd
+           
  - implement the code in the function `BodyRateControl()`
  - Tune `kpPQR` in `QuadControlParams.txt` to get the vehicle to stop spinning quickly but not overshoot
 
-If successful, you should see the rotation of the vehicle about roll (omega.x) get controlled to 0 while other rates remain zero.  Note that the vehicle will keep flying off quite quickly, since the angle is not yet being controlled back to 0.  Also note that some overshoot will happen due to motor dynamics!.
-
-If you come back to this step after the next step, you can try tuning just the body rate omega (without the outside angle controller) by setting `QuadControlParams.kpBank = 0`.
 
 2. Implement roll / pitch control
-We won't be worrying about yaw just yet.
 
  - implement the code in the function `RollPitchControl()`
  - Tune `kpBank` in `QuadControlParams.txt` to minimize settling time but avoid too much overshoot
