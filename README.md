@@ -59,17 +59,17 @@ Next, you will implement the position, altitude and yaw control for your quad.  
 The `AltitudeControl()` and `LateralPositionControl()` are written on `Lines 216-226` and `Lines 264-276`, respectively, of `QuadControl.cpp`. The lateral velocity and acceleration were both bound by vehicle limits listed in `QuadControlParams.txt`. The gains defined are listed below.  
 
 #### Position control gains ####
- - kpPosXY = 2.5
+ - `kpPosXY = 2.5
  - kpPosZ = 8
- - KiPosZ = 10
+ - KiPosZ = 10`
 
 #### Velocity control gains ####
- - kpVelXY = 15
- - kpVelZ = 18
+ - `kpVelXY = 15`
+ - `kpVelZ = 18`
  
 One point of difficulty I encountered was that my vehicle kept falling down. Eventually I realized my issue was that I failed to account for gravity in my altitude controller. (`Line 226`)
 
-The `YawControl()` is written on `Lines 298-308` of `QuadControl.cpp`.
+The `YawControl()` is written on `Lines 298-308` of `QuadControl.cpp`. The controller contrains the commanded yaw to lie within `0` and `2*pi` and 
 
 <p align="center">
 <img src="animations/scenario3.gif" width="500"/>
